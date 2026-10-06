@@ -1,15 +1,20 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovementScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    private Vector2 facingDirection = Vector2.down;
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
 
     [SerializeField] private int comboCount = 1;
-    [SerializeField] private float comboCooldown = 0.5f;
+    [SerializeField] private float comboCooldown = 0.8f;
+    [SerializeField] private float lastComboTime = 0f;
+    [SerializeField] private float lastAttackTime = 0f;
+    [SerializeField] private float attackCooldown = 0.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,16 +41,33 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         moveInput = context.ReadValue<Vector2>().normalized;
+        if (moveInput != Vector2.zero)
+        {
+            facingDirection = moveInput;
+        }
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
     }
 
     public void Attack(InputAction.CallbackContext context)
     {
-        animator.SetBool("isAttacking", true);
-        if(context.performed)
+        if (!context.started)
         {
-            if(comboCount < 3)
+            return;
+        }
+
+        if (Time.time - lastAttackTime < attackCooldown)
+        {
+            return;
+        }
+
+        if (Time.time - lastComboTime > comboCooldown)
+        {
+            comboCount = 1;
+        }
+        else
+        {
+            if (comboCount < 3)
             {
                 comboCount++;
             }
@@ -53,11 +75,15 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 comboCount = 1;
             }
-            animator.SetInteger("ComboCount", comboCount);
         }
-        if(context.canceled)
-        {
-            animator.SetBool("isAttacking", false);
-        }
+        lastAttackTime = Time.time;
+        lastComboTime = Time.time;
+
+        animator.SetFloat("FacingDirectionX", facingDirection.x);
+        animator.SetFloat("FacingDirectionY", facingDirection.y);
+
+        animator.SetInteger("ComboCount", comboCount);
+        animator.SetTrigger("Attack");
     }
+
 }

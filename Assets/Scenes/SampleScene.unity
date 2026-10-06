@@ -320,6 +320,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementScript
   moveSpeed: 3
   comboCount: 1
+  comboCooldown: 1
+  lastComboTime: 0
+  lastAttackTime: 0
+  attackCooldown: 0.5
 --- !u!114 &738076834
 MonoBehaviour:
   m_ObjectHideFlags: 0
