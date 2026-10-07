@@ -9,11 +9,12 @@ public class PlayerMovementScript : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
+    private bool isAttacking = false;
 
     [SerializeField] private int comboCount = 1;
     [SerializeField] private float comboCooldown = 0.8f;
-    [SerializeField] private float lastComboTime = 0f;
-    [SerializeField] private float lastAttackTime = 0f;
+    private float lastComboTime = 0f;
+    private float lastAttackTime = 0f;
     [SerializeField] private float attackCooldown = 0.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +27,14 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        if (isAttacking)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            rb.linearVelocity = moveInput * moveSpeed;
+        }
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -79,6 +87,8 @@ public class PlayerMovementScript : MonoBehaviour
         lastAttackTime = Time.time;
         lastComboTime = Time.time;
 
+        isAttacking = true;
+
         animator.SetFloat("FacingDirectionX", facingDirection.x);
         animator.SetFloat("FacingDirectionY", facingDirection.y);
 
@@ -86,4 +96,8 @@ public class PlayerMovementScript : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
+    public void EndAttack()
+    {
+        isAttacking = false;
+    }
 }
