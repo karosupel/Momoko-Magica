@@ -19,6 +19,7 @@ public class PlayerMovementScript : MonoBehaviour
     [SerializeField] private float attackCooldown = 0.5f;
 
     [SerializeField] List<GameObject> attackableEnemies;
+    [SerializeField] private Transform attackPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,6 +38,26 @@ public class PlayerMovementScript : MonoBehaviour
         else
         {
             rb.linearVelocity = moveInput * moveSpeed;
+        }
+
+        if(moveInput.x > 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
+        }
+
+        if(moveInput.x < 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
+        }
+
+        if(moveInput.y > 0 && moveInput.x == 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
+        }
+
+        if(moveInput.y < 0 && moveInput.x == 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x, transform.position.y - 0.5f);
         }
     }
 
@@ -91,7 +112,6 @@ public class PlayerMovementScript : MonoBehaviour
         lastComboTime = Time.time;
 
         isAttacking = true;
-        HitEnemiesInRange(attackableEnemies);
 
         animator.SetFloat("FacingDirectionX", facingDirection.x);
         animator.SetFloat("FacingDirectionY", facingDirection.y);
@@ -103,6 +123,11 @@ public class PlayerMovementScript : MonoBehaviour
     public void EndAttack()
     {
         isAttacking = false;
+    }
+
+    public void EnableAttackHitbox()
+    {
+        HitEnemiesInRange(attackableEnemies);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -126,6 +151,7 @@ public class PlayerMovementScript : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             enemy.GetComponent<HealthScript>().GetHit(10);
+            Debug.Log("wykonuje sie hit enemies in range");
         }
     }
 }

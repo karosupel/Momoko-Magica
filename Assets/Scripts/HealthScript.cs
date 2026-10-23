@@ -17,6 +17,7 @@ public class HealthScript : MonoBehaviour
 
     public void GetHit(int amount)
     {
+        Debug.Log("Hit!");
         currentHp -= amount;
     }
 }
