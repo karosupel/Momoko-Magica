@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +17,8 @@ public class PlayerMovementScript : MonoBehaviour
     private float lastComboTime = 0f;
     private float lastAttackTime = 0f;
     [SerializeField] private float attackCooldown = 0.5f;
+
+    [SerializeField] List<GameObject> attackableEnemies;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -88,6 +91,7 @@ public class PlayerMovementScript : MonoBehaviour
         lastComboTime = Time.time;
 
         isAttacking = true;
+        HitEnemiesInRange(attackableEnemies);
 
         animator.SetFloat("FacingDirectionX", facingDirection.x);
         animator.SetFloat("FacingDirectionY", facingDirection.y);
@@ -99,5 +103,29 @@ public class PlayerMovementScript : MonoBehaviour
     public void EndAttack()
     {
         isAttacking = false;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 3)
+        {
+            attackableEnemies.Add(collision.gameObject);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 3)
+        {
+            attackableEnemies.Remove(collision.gameObject);
+        }
+    }
+
+    private void HitEnemiesInRange(List<GameObject> enemies)
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.GetComponent<HealthScript>().GetHit(10);
+        }
     }
 }
