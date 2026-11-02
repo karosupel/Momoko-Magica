@@ -34,24 +34,24 @@ public class PlayerMovementScript : MonoBehaviour
             rb.linearVelocity = moveInput * moveSpeed;
         }
 
-        if(moveInput.x > 0)
-        {
-            attackPoint.transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
-        }
-
-        if(moveInput.x < 0)
-        {
-            attackPoint.transform.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
-        }
-
-        if(moveInput.y > 0 && moveInput.x == 0)
+        if(moveInput.y > 0)
         {
             attackPoint.transform.position = new Vector2(transform.position.x, transform.position.y + 0.5f);
         }
 
-        if(moveInput.y < 0 && moveInput.x == 0)
+        if(moveInput.y < 0)
         {
             attackPoint.transform.position = new Vector2(transform.position.x, transform.position.y - 0.5f);
+        }
+
+        if(moveInput.x > 0 && moveInput.y == 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x + 0.5f , transform.position.y);
+        }
+
+        if(moveInput.x < 0 && moveInput.y == 0)
+        {
+            attackPoint.transform.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
         }
     }
 
