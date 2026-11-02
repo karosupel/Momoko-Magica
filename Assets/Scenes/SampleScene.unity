@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 738076833}
   - component: {fileID: 738076836}
   - component: {fileID: 738076837}
+  - component: {fileID: 738076838}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -321,10 +322,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementScript
   moveSpeed: 3
-  comboCount: 1
-  comboCooldown: 1
-  attackCooldown: 0.4
-  attackableEnemies: []
   attackPoint: {fileID: 859463506}
 --- !u!114 &738076834
 MonoBehaviour:
@@ -373,8 +370,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Look[/Mouse/delta,/Pen/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 738076833}
-        m_TargetAssemblyTypeName: PlayerMovementScript, Assembly-CSharp
+      - m_Target: {fileID: 738076838}
+        m_TargetAssemblyTypeName: PlayerAttackScript, Assembly-CSharp
         m_MethodName: Attack
         m_Mode: 0
         m_Arguments:
@@ -551,6 +548,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.52136016, y: 0.7679322}
   m_EdgeRadius: 0
+--- !u!114 &738076838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738076830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4b3ba5679974743b133f35cdb0e123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackScript
+  attackPoint: {fileID: 859463506}
+  comboCount: 1
+  comboCooldown: 0.8
+  attackCooldown: 0.5
 --- !u!1 &803851371
 GameObject:
   m_ObjectHideFlags: 0
