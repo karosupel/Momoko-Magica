@@ -5,9 +5,11 @@ public class PlayerAttackScript : MonoBehaviour
 {
     PlayerMovementScript playerMovement;
     [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRange;
     private Animator animator;
     [SerializeField] private int comboCount = 1;
     [SerializeField] private float comboCooldown = 0.8f;
+    [SerializeField] LayerMask enemyLayer;
     private float lastComboTime = 0f;
     private float lastAttackTime = 0f;
     [SerializeField] private float attackCooldown = 0.5f;
@@ -59,6 +61,8 @@ public class PlayerAttackScript : MonoBehaviour
 
         isAttacking = true;
 
+        AttackEnemies();
+
         facingDirection = playerMovement.FacingDirection;
 
         animator.SetFloat("FacingDirectionX", facingDirection.x);
@@ -68,8 +72,25 @@ public class PlayerAttackScript : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
+    private void AttackEnemies()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(new Vector2(attackPoint.transform.position.x, attackPoint.transform.position.y), attackRange, enemyLayer);
+        foreach (Collider2D enemy in enemies)
+        {
+            Debug.Log("Hit");
+        }
+    }
+
     public void EndAttack()
     {
         isAttacking = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(new Vector2(attackPoint.transform.position.x, attackPoint.transform.position.y), attackRange);
     }
 }

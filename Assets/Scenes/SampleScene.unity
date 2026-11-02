@@ -561,8 +561,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackScript
   attackPoint: {fileID: 859463506}
+  attackRange: 1
   comboCount: 1
   comboCooldown: 0.8
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
   attackCooldown: 0.5
 --- !u!1 &803851371
 GameObject:
