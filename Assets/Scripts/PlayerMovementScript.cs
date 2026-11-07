@@ -14,6 +14,8 @@ public class PlayerMovementScript : MonoBehaviour
     private Animator animator;
     [SerializeField] private Transform attackPoint;
     private bool verticalPriorityActive;
+    Vector3 targetPosition = Vector3.zero;
+    private bool isMoving = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,6 +56,23 @@ public class PlayerMovementScript : MonoBehaviour
         {
             attackPoint.transform.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
         }
+
+
+        if(isMoving)
+        {
+            if(Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            {
+                Vector3 direction = (targetPosition - transform.position).normalized;
+                rb.linearVelocity = direction * moveSpeed;
+            }
+            else
+            {
+                isMoving = false;
+                animator.SetBool("isWalking", false);
+            }
+        }
+
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -87,6 +106,23 @@ public class PlayerMovementScript : MonoBehaviour
 
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        isMoving = true;
+        animator.SetBool("isWalking", true);
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        targetPosition = new Vector3(mousePos.x, mousePos.y, transform.position.z);
+        Vector3 distance = targetPosition - transform.position;
+        facingDirection = distance;
+
+        animator.SetFloat("InputX", distance.x);
+        animator.SetFloat("InputY", distance.y);
+
+        animator.SetFloat("LastInputX", facingDirection.x);
+        animator.SetFloat("LastInputY", facingDirection.y);
     }
 
 }
