@@ -13,6 +13,7 @@ public class PlayerMovementScript : MonoBehaviour
     private Vector2 moveInput;
     private Animator animator;
     [SerializeField] private Transform attackPoint;
+    private bool verticalPriorityActive;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -57,20 +58,33 @@ public class PlayerMovementScript : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        animator.SetBool("isWalking", true);
-
-        if(context.canceled)
-        {
-            animator.SetBool("isWalking", false);
-            animator.SetFloat("LastInputX", moveInput.x);
-            animator.SetFloat("LastInputY", moveInput.y);
-        }
-
         moveInput = context.ReadValue<Vector2>().normalized;
         if (moveInput != Vector2.zero)
         {
-            facingDirection = moveInput;
+            if (moveInput.y != 0)
+            {
+                facingDirection = new Vector2(0f, Mathf.Sign(moveInput.y));
+                verticalPriorityActive = true;
+            }
+            else if (!verticalPriorityActive)
+            {
+                facingDirection = new Vector2(Mathf.Sign(moveInput.x), 0f);
+            }
         }
+        else
+        {
+            verticalPriorityActive = false;
+            //jeśli puszcze wszystkie klawisze to trace prioryty i mogę atakować lewo prawo
+        }
+
+        animator.SetBool("isWalking", moveInput != Vector2.zero);
+
+        if(context.canceled)
+        {
+            animator.SetFloat("LastInputX", facingDirection.x);
+            animator.SetFloat("LastInputY", facingDirection.y);
+        }
+
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
     }

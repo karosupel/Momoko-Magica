@@ -1,21 +1,30 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerAttackScript : MonoBehaviour
 {
     PlayerMovementScript playerMovement;
+    [SerializeField] LayerMask enemyLayer;
+    private Animator animator;
+
+    [Header("Attack Parameters")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
-    private Animator animator;
+    [SerializeField] private int damageLight;
+    [SerializeField] private int damageHeavy;
+    [SerializeField] private float attackCooldown = 0.5f;
+
+    [Header("Combo Parameters")]
     [SerializeField] private int comboCount = 1;
     [SerializeField] private float comboCooldown = 0.8f;
-    [SerializeField] LayerMask enemyLayer;
     private float lastComboTime = 0f;
     private float lastAttackTime = 0f;
-    [SerializeField] private float attackCooldown = 0.5f;
     private Vector2 facingDirection;
     private bool isAttacking = false;
     public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
+
+    private UnityEvent AttackEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -77,7 +86,10 @@ public class PlayerAttackScript : MonoBehaviour
         Collider2D[] enemies = Physics2D.OverlapCircleAll(new Vector2(attackPoint.transform.position.x, attackPoint.transform.position.y), attackRange, enemyLayer);
         foreach (Collider2D enemy in enemies)
         {
-            Debug.Log("Hit");
+            if(comboCount > 2)
+                enemy.gameObject.GetComponent<HealthScript>().GetHit(damageHeavy);
+            else
+                enemy.gameObject.GetComponent<HealthScript>().GetHit(damageLight);
         }
     }
 

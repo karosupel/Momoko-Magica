@@ -560,14 +560,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4b3ba5679974743b133f35cdb0e123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackScript
-  attackPoint: {fileID: 859463506}
-  attackRange: 1
-  comboCount: 1
-  comboCooldown: 0.8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  attackPoint: {fileID: 859463506}
+  attackRange: 1
+  damageLight: 5
+  damageHeavy: 10
   attackCooldown: 0.5
+  comboCount: 1
+  comboCooldown: 0.8
 --- !u!1 &803851371
 GameObject:
   m_ObjectHideFlags: 0
