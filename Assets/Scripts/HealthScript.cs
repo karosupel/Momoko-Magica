@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class HealthScript : MonoBehaviour
 {
-    [SerializeField] private int maxHp = 100;
-    [SerializeField] private int currentHp;
-    public int CurrentHp
+    [SerializeField] private float maxHp = 100;
+    [SerializeField] private float currentHp;
+    public float CurrentHp
     {
         get {return currentHp;} 
         set {currentHp = value;}
@@ -15,7 +15,7 @@ public class HealthScript : MonoBehaviour
         currentHp = maxHp;
     }
 
-    public void GetHit(int amount)
+    public void GetHit(float amount)
     {
         currentHp -= amount;
     }

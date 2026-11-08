@@ -27,15 +27,36 @@ public class PlayerMoveState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-        if(Vector2.Distance(player.transform.position, targetPosition) > 0.1f)
+        if(attackAfter)
         {
-            direction = (targetPosition - player.transform.position).normalized;
-            rb.linearVelocity = direction * moveSpeed;
+            if(Vector2.Distance(player.transform.position, targetPosition) >= player.AttackRange)
+            {
+                direction = (targetPosition - player.transform.position).normalized;
+                rb.linearVelocity = direction * moveSpeed;
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+                rb.linearVelocity = Vector2.zero;
+                player.Direction = direction;
+                player.SwitchState(player.attackState);
+            }
         }
-        else
+        else if(!attackAfter)
         {
-            animator.SetBool("isWalking", false);
-            rb.linearVelocity = Vector2.zero;
+            if(Vector2.Distance(player.transform.position, targetPosition) > 0.1f) //podmienić na dokładność, to też do dorzucenia do parametrów
+            {
+                direction = (targetPosition - player.transform.position).normalized;
+                rb.linearVelocity = direction * moveSpeed;
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+                player.Direction = direction;
+                rb.linearVelocity = Vector2.zero;
+            }
         }
     }
+
+    //TO DO: dorzucić omijanie jesli moving state jest nieskonczony, czyli jakaś kontrolka czasu
 }

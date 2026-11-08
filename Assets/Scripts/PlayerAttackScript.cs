@@ -9,17 +9,17 @@ public class PlayerAttackScript : MonoBehaviour
     private Animator animator;
 
     [Header("Attack Parameters")]
-    [SerializeField] private Transform attackPoint;
+    public Transform attackPoint;
     [SerializeField] private float attackRange;
     [SerializeField] private int damageLight;
     [SerializeField] private int damageHeavy;
     [SerializeField] private float attackCooldown = 0.5f;
+    [SerializeField] private float lastAttackTime = 0f;
 
     [Header("Combo Parameters")]
     [SerializeField] private int comboCount = 1;
     [SerializeField] private float comboCooldown = 0.8f;
-    private float lastComboTime = 0f;
-    private float lastAttackTime = 0f;
+    [SerializeField] private float lastComboTime = 0f;
     private Vector2 facingDirection;
     private bool isAttacking = false;
     public bool IsAttacking { get { return isAttacking; } set { isAttacking = value; } }
