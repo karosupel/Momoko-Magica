@@ -74,7 +74,6 @@ public class PlayerStateManager : MonoBehaviour
 
             if (layer == LayerMask.NameToLayer("Ground"))
             {
-                Debug.Log("ground");
                 currentState = moveState;
                 moveState.TargetPosition = mousePosition;
                 moveState.AttackAfter = false;
@@ -83,7 +82,6 @@ public class PlayerStateManager : MonoBehaviour
             }
             else if (layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log("enemy");
                 if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange) //to podmienic potem na bycie w zasiegu
                 {
                     AdjustAttackPointDirection(direction);

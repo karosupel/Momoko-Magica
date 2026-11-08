@@ -14,7 +14,6 @@ public class PlayerAttackState : PlayerBaseState
     
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("Attack");
         animator = player.GetComponent<Animator>();
         attackPoint = player.attackPoint;
         enemyLayer = player.enemyLayer;
@@ -23,6 +22,7 @@ public class PlayerAttackState : PlayerBaseState
         damageHeavy = player.DamageHeavy;
         attackCooldown = player.AttackCooldown;
         comboCooldown = player.ComboCooldown;
+        comboCount = player.ComboCount;
 
         if (Time.time - player.LastAttackTime < attackCooldown)
         {
@@ -31,7 +31,6 @@ public class PlayerAttackState : PlayerBaseState
 
         if (Time.time - player.LastComboTime > comboCooldown)
         {
-            Debug.Log("combo reset");
             player.ComboCount = 1;
         }
         else
