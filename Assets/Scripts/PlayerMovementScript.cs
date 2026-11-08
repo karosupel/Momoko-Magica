@@ -104,8 +104,9 @@ public class PlayerMovementScript : MonoBehaviour
             animator.SetFloat("LastInputY", facingDirection.y);
         }
 
-        animator.SetFloat("InputX", moveInput.x);
-        animator.SetFloat("InputY", moveInput.y);
+        Vector2 animationDirection = moveInput == Vector2.zero ? Vector2.zero : facingDirection;
+        animator.SetFloat("InputX", animationDirection.x);
+        animator.SetFloat("InputY", animationDirection.y);
     }
 
     public void Interact(InputAction.CallbackContext context)

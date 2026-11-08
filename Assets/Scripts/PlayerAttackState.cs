@@ -81,4 +81,6 @@ public class PlayerAttackState : PlayerBaseState
 
         Gizmos.DrawWireSphere(new Vector2(attackPoint.transform.position.x, attackPoint.transform.position.y), attackRange);
     }
+
+    
 }

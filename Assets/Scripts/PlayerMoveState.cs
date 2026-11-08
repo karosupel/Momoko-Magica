@@ -16,29 +16,26 @@ public class PlayerMoveState : PlayerBaseState
         animator = player.GetComponent<Animator>();
         moveSpeed = player.MoveSpeed;
         direction = (targetPosition - player.transform.position).normalized;
+        UpdateFacingDirection(player);
         animator.SetBool("isWalking", true);
 
-        animator.SetFloat("InputX", direction.x);
-        animator.SetFloat("InputY", direction.y);
-
-        animator.SetFloat("LastInputX", direction.x);
-        animator.SetFloat("LastInputY", direction.y);
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
         if(attackAfter)
         {
-            if(Vector2.Distance(player.transform.position, targetPosition) >= player.AttackRange)
+            direction = (targetPosition - player.transform.position).normalized;
+            UpdateFacingDirection(player);
+
+            if(Vector2.Distance(player.attackPoint.transform.position, targetPosition) >= player.AttackRange)
             {
-                direction = (targetPosition - player.transform.position).normalized;
                 rb.linearVelocity = direction * moveSpeed;
             }
             else
             {
                 animator.SetBool("isWalking", false);
                 rb.linearVelocity = Vector2.zero;
-                player.Direction = direction;
                 player.SwitchState(player.attackState);
             }
         }
@@ -47,15 +44,35 @@ public class PlayerMoveState : PlayerBaseState
             if(Vector2.Distance(player.transform.position, targetPosition) > 0.1f) //podmienić na dokładność, to też do dorzucenia do parametrów
             {
                 direction = (targetPosition - player.transform.position).normalized;
+                UpdateFacingDirection(player);
                 rb.linearVelocity = direction * moveSpeed;
             }
             else
             {
                 animator.SetBool("isWalking", false);
-                player.Direction = direction;
                 rb.linearVelocity = Vector2.zero;
             }
         }
+    }
+
+    private void UpdateFacingDirection(PlayerStateManager player)
+    {
+        if (direction.sqrMagnitude == 0f)
+            return;
+
+        Vector2 facingDirection;
+        float angleFromHorizontal = Mathf.Atan2(Mathf.Abs(direction.y), Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
+        if (angleFromHorizontal <= player.HorizontalDirectionTolerance)
+            facingDirection = new Vector2(Mathf.Sign(direction.x), 0f);
+        else
+            facingDirection = new Vector2(0f, Mathf.Sign(direction.y));
+
+        player.Direction = facingDirection;
+        player.AdjustAttackPointDirection(facingDirection);
+        animator.SetFloat("InputX", facingDirection.x);
+        animator.SetFloat("InputY", facingDirection.y);
+        animator.SetFloat("LastInputX", facingDirection.x);
+        animator.SetFloat("LastInputY", facingDirection.y);
     }
 
     //TO DO: dorzucić omijanie jesli moving state jest nieskonczony, czyli jakaś kontrolka czasu
