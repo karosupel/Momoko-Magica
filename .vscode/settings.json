@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Momoko-Magica.slnx",
+    "dotnet.defaultSolution": "Momoko Magica.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }

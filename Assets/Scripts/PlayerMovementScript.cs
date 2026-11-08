@@ -125,4 +125,9 @@ public class PlayerMovementScript : MonoBehaviour
         animator.SetFloat("LastInputY", facingDirection.y);
     }
 
+    private void MoveTo()
+    {
+        
+    }
+
 }
