@@ -10,6 +10,8 @@ public class PlayerStateManager : MonoBehaviour
     Animator animator;
     public Vector2 direction = Vector2.down;
 
+    private AbilityController abilityController;
+
         [Header("Movement Parameters")]
     [SerializeField] private float moveSpeed;
     [SerializeField, Range(0f, 45f)] private float horizontalDirectionTolerance = 15f;
@@ -47,6 +49,7 @@ public class PlayerStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         currentState = idleState;
         currentState.EnterState(this);
+        abilityController = GetComponent<AbilityController>();
     }
 
     // Update is called once per frame
@@ -72,28 +75,40 @@ public class PlayerStateManager : MonoBehaviour
             direction = (hit.gameObject.transform.position - transform.position).normalized;
             AdjustAttackPointDirection(direction);
 
-            if (layer == LayerMask.NameToLayer("Ground"))
+            if(abilityController.IsTargeting)
             {
-                currentState = moveState;
-                moveState.TargetPosition = mousePosition;
-                moveState.AttackAfter = false;
-                AdjustAttackPointDirection(direction);
-                moveState.EnterState(this);
+                abilityController.selectedAbility.Data.Activate(
+                    new AbilityContext(gameObject),
+                    abilityController.selectedAbility.CurrentStats,
+                    mousePosition
+                );
+                abilityController.UnselectAbility();
             }
-            else if (layer == LayerMask.NameToLayer("Enemy"))
+            else
             {
-                if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange) //to podmienic potem na bycie w zasiegu
-                {
-                    AdjustAttackPointDirection(direction);
-                    SwitchState(attackState);
-                }
-                else
+                if (layer == LayerMask.NameToLayer("Ground"))
                 {
                     currentState = moveState;
                     moveState.TargetPosition = mousePosition;
-                    moveState.AttackAfter = true;
+                    moveState.AttackAfter = false;
                     AdjustAttackPointDirection(direction);
                     moveState.EnterState(this);
+                }
+                else if (layer == LayerMask.NameToLayer("Enemy"))
+                {
+                    if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange)
+                    {
+                        AdjustAttackPointDirection(direction);
+                        SwitchState(attackState);
+                    }
+                    else
+                    {
+                        currentState = moveState;
+                        moveState.TargetPosition = mousePosition;
+                        moveState.AttackAfter = true;
+                        AdjustAttackPointDirection(direction);
+                        moveState.EnterState(this);
+                    }
                 }
             }
         }

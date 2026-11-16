@@ -7,7 +7,6 @@ public enum TargetingType
     Enemy,
     Direction
 }
-
 public abstract class AbilityData : ScriptableObject
 {
     public string abilityName;
@@ -25,8 +24,6 @@ public abstract class AbilityData : ScriptableObject
 
         return levels[index];
     }
-
-    public float cooldown;
 
     public TargetingType targetingType;
 
