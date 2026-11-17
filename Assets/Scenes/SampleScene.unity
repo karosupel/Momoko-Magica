@@ -561,6 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c94764e034a9c48940c19a8c9cc5a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AbilityController
+  abilityDatabase: {fileID: 11400000, guid: e5941116b39d5574cb220a7caeb43687, type: 2}
 --- !u!1 &803851371
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class AbilityInstance
 {
     public AbilityData Data { get; private set; }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AbilityController : MonoBehaviour
 {
+    public AbilityDatabase abilityDatabase; //to testowo tutaj, pozniej przeniesc to do day manager jak zaczniesz go robic
     public AbilityInstance[] abilities = new AbilityInstance[3];
     public AbilityInstance selectedAbility;
     private bool isTargeting;
@@ -13,6 +14,11 @@ public class AbilityController : MonoBehaviour
     private void Awake()
     {
         context = new AbilityContext(gameObject);
+    }
+
+    void Start()
+    {
+        EquipAbility(0, abilityDatabase.allAbilities[0]); //rowniez testowo
     }
 
     public void EquipAbility(int index, AbilityData data)
