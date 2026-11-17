@@ -20,3 +20,4 @@ MonoBehaviour:
     cooldown: 1
     duration: 1
   targetingType: 1
+  abilityVisual: {fileID: 1860729794661581599, guid: c2d2732747ee3934580a9298592b4d1b, type: 3}

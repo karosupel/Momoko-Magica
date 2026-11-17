@@ -27,9 +27,12 @@ public abstract class AbilityData : ScriptableObject
 
     public TargetingType targetingType;
 
+    public GameObject abilityVisualPrefab;
+
     public abstract void Activate(
         AbilityContext context,
         AbilityLevelData stats,
-        Vector2 targetPosition
+        Vector2 targetPosition,
+        GameObject abilityVisualPrefab
     );
 }

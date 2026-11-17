@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class AbilityController : MonoBehaviour
 {
@@ -8,6 +8,8 @@ public class AbilityController : MonoBehaviour
     public AbilityInstance selectedAbility;
     private bool isTargeting;
     public bool IsTargeting => isTargeting;
+
+    public AbilityVisual abilityVisual;
 
     private AbilityContext context;
 
@@ -41,11 +43,13 @@ public class AbilityController : MonoBehaviour
             return;
 
         selectedAbility = abilities[index];
+        InstantianeVisuals(selectedAbility);
 
         if(selectedAbility != null)
         {
             if(selectedAbility.Data.targetingType != TargetingType.Instant)
             {
+                abilityVisual.ShowRange(selectedAbility.CurrentStats.range);
                 Debug.Log("I am targeting");
                 isTargeting = true;
             }
@@ -60,6 +64,7 @@ public class AbilityController : MonoBehaviour
     public void UnselectAbility()
     {
         selectedAbility = null;
+        Destroy(abilityVisual.gameObject);
         isTargeting = false;
     }
 
@@ -67,6 +72,11 @@ public class AbilityController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if(selectedAbility != null)
+            {
+                UnselectAbility();
+                return;
+            }
             SelectAbility(0);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2))
@@ -77,5 +87,11 @@ public class AbilityController : MonoBehaviour
         {
             SelectAbility(2);
         }
+    }
+
+    private void InstantianeVisuals(AbilityInstance ability)
+    {
+        GameObject visualObject = Instantiate(ability.Data.abilityVisualPrefab, transform.position, Quaternion.identity, transform);
+        abilityVisual = visualObject.GetComponent<AbilityVisual>();
     }
 }
