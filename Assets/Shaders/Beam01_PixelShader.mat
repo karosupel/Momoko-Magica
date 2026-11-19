@@ -42,9 +42,9 @@ Material:
     - _BUILTIN_ZTest: 4
     - _BUILTIN_ZWrite: 0
     - _BUILTIN_ZWriteControl: 0
-    - _Bits: 8
+    - _Bits: 64
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 20.865906, g: 20.865906, b: 20.865906, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &739865347167267775
