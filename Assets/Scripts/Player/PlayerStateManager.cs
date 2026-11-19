@@ -67,7 +67,15 @@ public class PlayerStateManager : MonoBehaviour
             Mouse.current.position.ReadValue()
         );
 
-        Collider2D hit = Physics2D.OverlapPoint(mousePosition);
+        Collider2D hit = Physics2D.OverlapPoint(mousePosition, enemyLayer);
+
+        if (hit == null)
+            hit = Physics2D.OverlapPoint(mousePosition, LayerMask.GetMask("Ground"));
+
+        if (hit == null)
+            return;
+
+        Debug.Log($"Hit: {hit.name}, layer: {LayerMask.LayerToName(hit.gameObject.layer)}");
 
         if (hit != null)
         {
@@ -97,6 +105,7 @@ public class PlayerStateManager : MonoBehaviour
                 }
                 else if (layer == LayerMask.NameToLayer("Enemy"))
                 {
+                    Debug.Log("dlacego to nie dziala...");
                     if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange)
                     {
                         AdjustAttackPointDirection(direction);
