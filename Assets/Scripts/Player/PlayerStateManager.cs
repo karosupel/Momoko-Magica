@@ -89,7 +89,7 @@ public class PlayerStateManager : MonoBehaviour
                     new AbilityContext(gameObject),
                     abilityController.selectedAbility.CurrentStats,
                     mousePosition,
-                    abilityController.selectedAbility.Data.abilityVisualPrefab
+                    abilityController.abilityVisual.gameObject
                 );
                 abilityController.UnselectAbility();
             }

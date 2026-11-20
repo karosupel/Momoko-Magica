@@ -1,24 +1,24 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(SpriteRenderer))]
+
 public class AbilityVisual : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer targetingVisualSprite;
     private Vector2 mousePosition;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = false;
+        targetingVisualSprite = GetComponentInChildren<SpriteRenderer>();
+        targetingVisualSprite.enabled = false;
     }
 
     public void ShowRange(float range)
     {
-        spriteRenderer.enabled = true;
+        targetingVisualSprite.enabled = true;
         float diameter = range * 2f;
 
-        spriteRenderer.size = new Vector2(
+        targetingVisualSprite.size = new Vector2(
             diameter,
             diameter
         );
@@ -26,7 +26,7 @@ public class AbilityVisual : MonoBehaviour
 
     public void HideRange()
     {
-        spriteRenderer.enabled = false;
+        targetingVisualSprite.enabled = false;
     }
 
     void Update()
