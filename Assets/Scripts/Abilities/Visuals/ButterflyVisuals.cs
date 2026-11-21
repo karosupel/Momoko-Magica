@@ -1,4 +1,6 @@
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ButterflyVisuals : AbilityVisual
 {
@@ -7,13 +9,15 @@ public class ButterflyVisuals : AbilityVisual
     protected override void Awake()
     {
         base.Awake();
-        explosionVFXPrefab = GetComponentInChildren<ParticleSystem>().gameObject;
+        explosionVFXPrefab = Instantiate(explosionVFXPrefab, base.mousePosition, quaternion.identity);
         HideExplosionVFX();
     }
     public void ShowExplosionVFX(float range)
     {
+        explosionVFXPrefab.transform.position = mousePosition;
         explosionVFXPrefab.gameObject.SetActive(true);
         //tutaj potem bedziesz inputowac w to range
+        Destroy(explosionVFXPrefab, 10f); //podmienić troche na cooldown
     }
 
     public void HideExplosionVFX()

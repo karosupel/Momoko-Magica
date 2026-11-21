@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class AbilityVisual : MonoBehaviour
 {
-    private SpriteRenderer targetingVisualSprite;
-    private Vector2 mousePosition;
+    protected SpriteRenderer targetingVisualSprite;
+    protected Vector2 mousePosition;
 
     protected virtual void Awake()
     {
@@ -34,6 +34,6 @@ public class AbilityVisual : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(
             Mouse.current.position.ReadValue()
         );
-        transform.position = mousePosition;
+        targetingVisualSprite.transform.position = mousePosition;
     }
 }

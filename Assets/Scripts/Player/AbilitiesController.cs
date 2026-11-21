@@ -72,7 +72,7 @@ public class AbilityController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if(selectedAbility != null)
+            if(selectedAbility != null && abilityVisual != null)
             {
                 UnselectAbility();
                 return;
