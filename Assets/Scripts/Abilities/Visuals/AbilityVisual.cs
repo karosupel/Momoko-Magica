@@ -16,12 +16,8 @@ public class AbilityVisual : MonoBehaviour
     public void ShowRange(float range)
     {
         targetingVisualSprite.enabled = true;
-        float diameter = range * 2f;
 
-        targetingVisualSprite.size = new Vector2(
-            diameter,
-            diameter
-        );
+        targetingVisualSprite.transform.localScale = new Vector3(range, range, range);
     }
 
     public void HideRange()

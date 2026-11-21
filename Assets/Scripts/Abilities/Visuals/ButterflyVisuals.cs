@@ -15,6 +15,7 @@ public class ButterflyVisuals : AbilityVisual
     public void ShowExplosionVFX(float range)
     {
         explosionVFXPrefab.transform.position = mousePosition;
+        explosionVFXPrefab.GetComponent<ExplosionVFXScript>().SetRadius(range);
         explosionVFXPrefab.gameObject.SetActive(true);
         //tutaj potem bedziesz inputowac w to range
         Destroy(explosionVFXPrefab, 10f); //podmienić troche na cooldown
