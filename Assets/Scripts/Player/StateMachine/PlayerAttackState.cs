@@ -24,9 +24,13 @@ public class PlayerAttackState : PlayerBaseState
         comboCooldown = player.ComboCooldown;
         comboCount = player.ComboCount;
 
+        player.Direction = player.GetCardinalFacingDirection(player.Direction);
+        player.AdjustAttackPointDirection(player.Direction);
+
         if (Time.time - player.LastAttackTime < attackCooldown)
         {
             player.SwitchState(player.idleState);
+            return;
         }
 
         if (Time.time - player.LastComboTime > comboCooldown)
@@ -49,6 +53,10 @@ public class PlayerAttackState : PlayerBaseState
 
         AttackEnemies();
 
+        animator.SetFloat("InputX", player.Direction.x);
+        animator.SetFloat("InputY", player.Direction.y);
+        animator.SetFloat("LastInputX", player.Direction.x);
+        animator.SetFloat("LastInputY", player.Direction.y);
         animator.SetFloat("FacingDirectionX", player.Direction.x);
         animator.SetFloat("FacingDirectionY", player.Direction.y);
 

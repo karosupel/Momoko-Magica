@@ -9,6 +9,7 @@ public class PlayerStateManager : MonoBehaviour
     public PlayerAttackState attackState = new PlayerAttackState();
     Animator animator;
     public Vector2 direction = Vector2.down;
+    private Rigidbody2D rb;
 
     private AbilityController abilityController;
 
@@ -50,12 +51,43 @@ public class PlayerStateManager : MonoBehaviour
         currentState = idleState;
         currentState.EnterState(this);
         abilityController = GetComponent<AbilityController>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
         currentState.UpdateState(this);
+    }
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            if (!moveState.IsInputMovement)
+                return;
+
+            moveState.StopInputMovement();
+            if (currentState == moveState)
+                SwitchState(idleState);
+            return;
+        }
+
+        if (!context.performed)
+            return;
+
+        moveState.SetInputDirection(context.ReadValue<Vector2>());
+        SwitchState(moveState);
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (!context.started || moveState.IsMoving || rb.linearVelocity.sqrMagnitude > 0.0001f)
+            return;
+
+        direction = GetCardinalFacingDirection(direction);
+        AdjustAttackPointDirection(direction);
+        SwitchState(attackState);
     }
 
     public void Interact(InputAction.CallbackContext context)
@@ -79,9 +111,9 @@ public class PlayerStateManager : MonoBehaviour
 
         if (hit != null)
         {
-            int layer = hit.gameObject.layer;
-            direction = (hit.gameObject.transform.position - transform.position).normalized;
-            AdjustAttackPointDirection(direction);
+            //int layer = hit.gameObject.layer;
+            //direction = (hit.gameObject.transform.position - transform.position).normalized;
+            //AdjustAttackPointDirection(direction);
 
             if(abilityController.IsTargeting)
             {
@@ -95,31 +127,31 @@ public class PlayerStateManager : MonoBehaviour
             }
             else
             {
-                if (layer == LayerMask.NameToLayer("Ground"))
-                {
-                    currentState = moveState;
-                    moveState.TargetPosition = mousePosition;
-                    moveState.AttackAfter = false;
-                    AdjustAttackPointDirection(direction);
-                    moveState.EnterState(this);
-                }
-                else if (layer == LayerMask.NameToLayer("Enemy"))
-                {
-                    Debug.Log("dlacego to nie dziala...");
-                    if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange)
-                    {
-                        AdjustAttackPointDirection(direction);
-                        SwitchState(attackState);
-                    }
-                    else
-                    {
-                        currentState = moveState;
-                        moveState.TargetPosition = mousePosition;
-                        moveState.AttackAfter = true;
-                        AdjustAttackPointDirection(direction);
-                        moveState.EnterState(this);
-                    }
-                }
+                Attack(context);
+                // if (layer == LayerMask.NameToLayer("Ground"))
+                // {
+                //     currentState = moveState;
+                //     moveState.TargetPosition = mousePosition;
+                //     moveState.AttackAfter = false;
+                //     AdjustAttackPointDirection(direction);
+                //     moveState.EnterState(this);
+                // }
+                // else if (layer == LayerMask.NameToLayer("Enemy"))
+                // {
+                //     if(Vector2.Distance(attackPoint.transform.position, hit.gameObject.transform.position) <= attackRange)
+                //     {
+                //         AdjustAttackPointDirection(direction);
+                //         SwitchState(attackState);
+                //     }
+                //     else
+                //     {
+                //         currentState = moveState;
+                //         moveState.TargetPosition = mousePosition;
+                //         moveState.AttackAfter = true;
+                //         AdjustAttackPointDirection(direction);
+                //         moveState.EnterState(this);
+                //     }
+                // }
             }
         }
     }
@@ -151,5 +183,21 @@ public class PlayerStateManager : MonoBehaviour
         {
             attackPoint.transform.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
         }
+    }
+
+    public Vector2 GetCardinalFacingDirection(Vector2 inputDirection)
+    {
+        if (inputDirection.sqrMagnitude == 0f)
+            return direction;
+
+        float angleFromHorizontal = Mathf.Atan2(
+            Mathf.Abs(inputDirection.y),
+            Mathf.Abs(inputDirection.x)
+        ) * Mathf.Rad2Deg;
+
+        if (angleFromHorizontal <= horizontalDirectionTolerance)
+            return new Vector2(Mathf.Sign(inputDirection.x), 0f);
+
+        return new Vector2(0f, Mathf.Sign(inputDirection.y));
     }
 }
