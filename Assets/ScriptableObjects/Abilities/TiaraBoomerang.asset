@@ -16,8 +16,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   levels:
   - damage: 10
-    range: 1
+    range: 3
     cooldown: 1
     duration: 1
   targetingType: 3
   abilityVisualPrefab: {fileID: 6331384735134830098, guid: 7717c8b7dbddddb4787153d864079d49, type: 3}
+  TiaraPrefab: {fileID: 8925826348785636049, guid: ad841f88d6dccdb41b29d71a83c5ed96, type: 3}

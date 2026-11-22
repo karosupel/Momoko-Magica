@@ -50,7 +50,6 @@ public class AbilityVisual : MonoBehaviour
 
                 if (toMouse.sqrMagnitude > 0.0001f)
                 {
-                    // Gdy kursor jest pod graczem, celuj poziomo zamiast w dół.
                     if (toMouse.y < 0f)
                     {
                         toMouse.y = 0f;
