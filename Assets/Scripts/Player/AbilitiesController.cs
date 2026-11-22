@@ -21,6 +21,7 @@ public class AbilityController : MonoBehaviour
     void Start()
     {
         EquipAbility(0, abilityDatabase.allAbilities[0]); //rowniez testowo
+        EquipAbility(1, abilityDatabase.allAbilities[1]);
     }
 
     public void EquipAbility(int index, AbilityData data)
@@ -49,7 +50,7 @@ public class AbilityController : MonoBehaviour
         {
             if(selectedAbility.Data.targetingType != TargetingType.Instant)
             {
-                abilityVisual.ShowRange(selectedAbility.CurrentStats.range);
+                abilityVisual.ShowRange(selectedAbility.CurrentStats.range, selectedAbility.Data.targetingType);
                 Debug.Log("I am targeting");
                 isTargeting = true;
             }
