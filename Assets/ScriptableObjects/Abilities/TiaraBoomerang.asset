@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   levels:
   - damage: 10
-    range: 3
+    range: 7
     cooldown: 1
     duration: 1
   targetingType: 3
