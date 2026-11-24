@@ -42,7 +42,7 @@ Material:
     - _ArmsWidth: 0.3
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Bits: 32
+    - _Bits: 16
     - _Radius: 2
     - _Softness: 0.05
     - _Twist: 2
