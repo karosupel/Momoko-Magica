@@ -16,3 +16,9 @@ public class WhirlLevelData : AbilityLevelData
     public float pullAccelerationRate;
     public float damageInterval;
 }
+
+[System.Serializable]
+public class TiaraLevelData : AbilityLevelData
+{
+    public float startSpeed;
+}

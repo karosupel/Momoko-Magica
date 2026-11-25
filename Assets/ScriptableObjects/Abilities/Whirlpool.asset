@@ -15,12 +15,20 @@ MonoBehaviour:
   abilityName: Whirlpool
   icon: {fileID: 0}
   levels:
-  - rid: -2
+  - rid: 5268780032869007432
   targetingType: 1
   abilityVisualPrefab: {fileID: 6223083835317038876, guid: ae4534c0f146e294e915d2870cafed85, type: 3}
-  whirlPrefab: {fileID: 0}
+  whirlPrefab: {fileID: 1263726484820432057, guid: c5bceaacc98872048a7c7a8eeefbd15f, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 5268780032869007432
+      type: {class: WhirlLevelData, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 1
+        range: 1
+        cooldown: 1
+        duration: 1
+        pullAcceleration: 6
+        pullAccelerationRate: 0.1
+        damageInterval: 0.1

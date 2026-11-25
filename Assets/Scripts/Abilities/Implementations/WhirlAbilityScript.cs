@@ -6,6 +6,7 @@ using UnityEngine;
 )]
 public class WhirlAbilityScript : AbilityData
 {
+    //this is that i could have diffrent types of levels data
     protected override void OnValidate()
     {
         base.OnValidate();
@@ -30,6 +31,8 @@ public class WhirlAbilityScript : AbilityData
     {
         return new WhirlLevelData();
     }
+
+    //there starts normal code
 
     [SerializeField] GameObject whirlPrefab;
     WhirlScript whirlScript;
