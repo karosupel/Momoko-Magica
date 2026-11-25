@@ -604,6 +604,7 @@ GameObject:
   - component: {fileID: 803851373}
   - component: {fileID: 803851372}
   - component: {fileID: 803851376}
+  - component: {fileID: 803851377}
   m_Layer: 3
   m_Name: Enemy
   m_TagString: Untagged
@@ -772,6 +773,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthScript
   maxHp: 100
   currentHp: 0
+--- !u!114 &803851377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803851371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefef0a8313b76f4b9dd23e1c7fbd7b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBaseScript
+  schoolLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  speed: 0.3
 --- !u!1 &859463505
 GameObject:
   m_ObjectHideFlags: 0
