@@ -8,3 +8,11 @@ public class AbilityLevelData
     public float cooldown;
     public float duration;
 }
+
+[System.Serializable]
+public class WhirlLevelData : AbilityLevelData
+{
+    public float pullAcceleration;
+    public float pullAccelerationRate;
+    public float damageInterval;
+}

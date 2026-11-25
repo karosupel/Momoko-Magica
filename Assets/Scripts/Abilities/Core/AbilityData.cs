@@ -12,6 +12,7 @@ public abstract class AbilityData : ScriptableObject
     public string abilityName;
     public Sprite icon;
 
+    [SerializeReference]
     public AbilityLevelData[] levels;
 
     public AbilityLevelData GetLevelData(int level)
@@ -35,4 +36,21 @@ public abstract class AbilityData : ScriptableObject
         Vector2 targetPosition,
         GameObject abilityVisualPrefab
     );
+
+    protected virtual AbilityLevelData CreateDefaultLevelData()
+    {
+        return new AbilityLevelData();
+    }
+
+    protected virtual void OnValidate()
+    {
+        if (levels == null || levels.Length == 0)
+            levels = new AbilityLevelData[] { CreateDefaultLevelData() };
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            if (levels[i] == null)
+                levels[i] = CreateDefaultLevelData();
+        }
+    }
 }
