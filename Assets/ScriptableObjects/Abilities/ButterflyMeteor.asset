@@ -15,9 +15,16 @@ MonoBehaviour:
   abilityName: Butterfly Rain
   icon: {fileID: 0}
   levels:
-  - damage: 10
-    range: 1.5
-    cooldown: 1
-    duration: 1
+  - rid: 5268780032869007436
   targetingType: 1
   abilityVisualPrefab: {fileID: 5490743802662493652, guid: c2d2732747ee3934580a9298592b4d1b, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5268780032869007436
+      type: {class: AbilityLevelData, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 1
+        range: 1
+        cooldown: 1
+        duration: 1
