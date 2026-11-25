@@ -15,17 +15,18 @@ MonoBehaviour:
   abilityName: Tiara Action
   icon: {fileID: 0}
   levels:
-  - rid: 5268780032869007435
+  - rid: 5268780032869007442
   targetingType: 3
   abilityVisualPrefab: {fileID: 6331384735134830098, guid: 7717c8b7dbddddb4787153d864079d49, type: 3}
   TiaraPrefab: {fileID: 8925826348785636049, guid: ad841f88d6dccdb41b29d71a83c5ed96, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5268780032869007435
-      type: {class: AbilityLevelData, ns: , asm: Assembly-CSharp}
+    - rid: 5268780032869007442
+      type: {class: TiaraLevelData, ns: , asm: Assembly-CSharp}
       data:
         damage: 1
-        range: 6
+        range: 5
         cooldown: 1
         duration: 1
+        startSpeed: 3
